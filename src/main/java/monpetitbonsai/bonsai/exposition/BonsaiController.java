@@ -2,10 +2,14 @@ package monpetitbonsai.bonsai.exposition;
 
 import monpetitbonsai.BonsaiMapper;
 import monpetitbonsai.bonsai.domain.BonsaiService;
+import monpetitbonsai.bonsai.domain.Pruning;
+import monpetitbonsai.bonsai.domain.Repotting;
+import monpetitbonsai.bonsai.domain.Watering;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -50,5 +54,20 @@ public class BonsaiController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
         bonsaiService.delete(id);
+    }
+
+    @GetMapping("/{id}/watering")
+    public ResponseEntity<Watering> getLatestWatering(@PathVariable UUID id) {
+        return bonsaiService.getLatestWatering(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}/repotting")
+    public ResponseEntity<Repotting> getLatestRepotting(@PathVariable UUID id) {
+        return bonsaiService.getLatestRepotting(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}/pruning")
+    public ResponseEntity<Pruning> getLatestPruning(@PathVariable UUID id) {
+        return bonsaiService.getLatestPruning(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }

@@ -1,8 +1,14 @@
 package monpetitbonsai;
 
 import monpetitbonsai.bonsai.domain.Bonsai;
+import monpetitbonsai.bonsai.domain.Pruning;
+import monpetitbonsai.bonsai.domain.Repotting;
+import monpetitbonsai.bonsai.domain.Watering;
 import monpetitbonsai.bonsai.exposition.BonsaiDto;
 import monpetitbonsai.bonsai.infrastructure.BonsaiEntity;
+import monpetitbonsai.bonsai.infrastructure.PruningEntity;
+import monpetitbonsai.bonsai.infrastructure.RepottingEntity;
+import monpetitbonsai.bonsai.infrastructure.WateringEntity;
 
 public class BonsaiMapper {
 
@@ -48,5 +54,30 @@ public class BonsaiMapper {
         bonsaiEntity.setAcquisition_age(bonsai.getAcquisition_age());
         bonsaiEntity.setStatus(bonsai.getStatus());
         return bonsaiEntity;
+    }
+
+    public static Watering toWatering(WateringEntity wateringEntity) {
+        Watering watering = new Watering();
+        watering.setId(wateringEntity.getId());
+        watering.setWatering_date(wateringEntity.getWatering_date());
+        watering.setBonsai_id(wateringEntity.getBonsai_id());
+        return watering;
+    }
+
+    public static Repotting toRepotting(RepottingEntity repottingEntity) {
+        Repotting repotting = new Repotting();
+        repotting.setId(repottingEntity.getId());
+        repotting.setRepotting_date(repottingEntity.getRepotting_date());
+        repotting.setBonsai_id(repottingEntity.getBonsai_id());
+        return repotting;
+    }
+
+
+    public static Pruning toPruning(PruningEntity pruningEntity) {
+        Pruning pruning = new Pruning();
+        pruning.setId(pruningEntity.getId());
+        pruning.setPruning_date(pruningEntity.getPruning_date());
+        pruning.setBonsai_id(pruningEntity.getBonsai_id());
+        return pruning;
     }
 }
