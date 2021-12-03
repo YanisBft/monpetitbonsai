@@ -15,8 +15,8 @@ public class RepottingEntity {
     private UUID id;
     @Column(name = "repotting_date")
     private Date repotting_date;
-    @Column(name = "bonsai_id")
-    private UUID bonsai_id;
+    @ManyToOne(targetEntity = BonsaiEntity.class) @JoinColumn(name = "bonsai_id")
+    private BonsaiEntity bonsai;
 
     public RepottingEntity() {
     }
@@ -37,11 +37,11 @@ public class RepottingEntity {
         this.repotting_date = repotting_date;
     }
 
-    public UUID getBonsai_id() {
-        return bonsai_id;
+    public BonsaiEntity getBonsai() {
+        return bonsai;
     }
 
-    public void setBonsai_id(UUID bonsai_id) {
-        this.bonsai_id = bonsai_id;
+    public void setBonsai(BonsaiEntity bonsai) {
+        this.bonsai = bonsai;
     }
 }

@@ -15,8 +15,8 @@ public class PruningEntity {
     private UUID id;
     @Column(name = "pruning_date")
     private Date pruning_date;
-    @Column(name = "bonsai_id")
-    private UUID bonsai_id;
+    @ManyToOne(targetEntity = BonsaiEntity.class) @JoinColumn(name = "bonsai_id")
+    private BonsaiEntity bonsai;
 
     public PruningEntity() {
     }
@@ -37,11 +37,11 @@ public class PruningEntity {
         this.pruning_date = pruning_date;
     }
 
-    public UUID getBonsai_id() {
-        return bonsai_id;
+    public BonsaiEntity getBonsai() {
+        return bonsai;
     }
 
-    public void setBonsai_id(UUID bonsai_id) {
-        this.bonsai_id = bonsai_id;
+    public void setBonsai(BonsaiEntity bonsai) {
+        this.bonsai = bonsai;
     }
 }

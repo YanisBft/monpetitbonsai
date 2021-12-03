@@ -1,5 +1,7 @@
 package monpetitbonsai.bonsai.exposition;
 
+import monpetitbonsai.commons.Status;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,7 +11,10 @@ public class BonsaiDto {
     private String species;
     private Date acquisition_date;
     private int acquisition_age;
-    private String status;
+    private Date last_watering;
+    private Date last_repotting;
+    private Date last_pruning;
+    private Status status;
 
     public BonsaiDto() {
     }
@@ -54,11 +59,35 @@ public class BonsaiDto {
         this.acquisition_age = acquisition_age;
     }
 
-    public String getStatus() {
+    public Date getLast_watering() {
+        return last_watering;
+    }
+
+    public void setLast_watering(Date last_watering) {
+        this.last_watering = last_watering;
+    }
+
+    public Date getLast_repotting() {
+        return last_repotting;
+    }
+
+    public void setLast_repotting(Date last_repotting) {
+        this.last_repotting = last_repotting;
+    }
+
+    public Date getLast_pruning() {
+        return last_pruning;
+    }
+
+    public void setLast_pruning(Date last_pruning) {
+        this.last_pruning = last_pruning;
+    }
+
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 }

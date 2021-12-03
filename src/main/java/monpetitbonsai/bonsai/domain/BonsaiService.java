@@ -1,9 +1,10 @@
 package monpetitbonsai.bonsai.domain;
 
 import monpetitbonsai.bonsai.infrastructure.BonsaiRepository;
+import monpetitbonsai.commons.Status;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,8 +17,8 @@ public class BonsaiService {
         this.bonsaiRepository = bonsaiRepository;
     }
 
-    public List<Bonsai> findAll() {
-        return bonsaiRepository.findAll();
+    public List<Bonsai> findAll(Status status, int older_than, Sort sort) {
+        return bonsaiRepository.findAll(status, older_than, sort);
     }
 
     public Optional<Bonsai> findById(UUID id) {
@@ -40,7 +41,7 @@ public class BonsaiService {
         return bonsai;
     }
 
-    public Optional<Bonsai> updateStatus(UUID id, String status) {
+    public Optional<Bonsai> updateStatus(UUID id, Status status) {
         Optional<Bonsai> bonsai = bonsaiRepository.findById(id);
         if (bonsai.isPresent()) {
             bonsai.get().setStatus(status);
@@ -55,25 +56,37 @@ public class BonsaiService {
 
     public Optional<Watering> getLatestWatering(UUID id) {
         Optional<Bonsai> bonsai = bonsaiRepository.findById(id);
-        if (bonsai.isPresent()) {
-            return bonsaiRepository.getLatestWatering(id);
+        if (bonsai.isPresent() && !bonsaiRepository.getWaterings(id).isEmpty()) {
+            return Optional.of(bonsaiRepository.getWaterings(id).get(0));
         }
         return Optional.empty();
+    }
+
+    public List<Watering> getWaterings(UUID id) {
+        return bonsaiRepository.getWaterings(id);
     }
 
     public Optional<Repotting> getLatestRepotting(UUID id) {
         Optional<Bonsai> bonsai = bonsaiRepository.findById(id);
-        if (bonsai.isPresent()) {
-            return bonsaiRepository.getLatestRepotting(id);
+        if (bonsai.isPresent() && !bonsaiRepository.getRepottings(id).isEmpty()) {
+            return Optional.of(bonsaiRepository.getRepottings(id).get(0));
         }
         return Optional.empty();
     }
 
+    public List<Repotting> getRepottings(UUID id) {
+        return bonsaiRepository.getRepottings(id);
+    }
+
     public Optional<Pruning> getLatestPruning(UUID id) {
         Optional<Bonsai> bonsai = bonsaiRepository.findById(id);
-        if (bonsai.isPresent()) {
-            return bonsaiRepository.getLatestPruning(id);
+        if (bonsai.isPresent() && !bonsaiRepository.getPrunings(id).isEmpty()) {
+            return Optional.of(bonsaiRepository.getPrunings(id).get(0));
         }
         return Optional.empty();
+    }
+
+    public List<Pruning> getPrunings(UUID id) {
+        return bonsaiRepository.getPrunings(id);
     }
 }

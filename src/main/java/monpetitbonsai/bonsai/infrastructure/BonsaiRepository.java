@@ -5,8 +5,11 @@ import monpetitbonsai.bonsai.domain.Bonsai;
 import monpetitbonsai.bonsai.domain.Pruning;
 import monpetitbonsai.bonsai.domain.Repotting;
 import monpetitbonsai.bonsai.domain.Watering;
+import monpetitbonsai.commons.Status;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,8 +29,11 @@ public class BonsaiRepository {
         this.pruningDao = pruningDao;
     }
 
-    public List<Bonsai> findAll() {
-        return bonsaiDao.findAll().stream().map(BonsaiMapper::toBonsai).collect(Collectors.toList());
+    public List<Bonsai> findAll(Status status, int older_than, Sort sort) {
+        if (status != null) {
+            return bonsaiDao.findAllFilteredByStatus(status, older_than, sort).stream().map(BonsaiMapper::toBonsai).collect(Collectors.toList());
+        }
+        return bonsaiDao.findAllFiltered(older_than, sort).stream().map(BonsaiMapper::toBonsai).collect(Collectors.toList());
     }
 
     public Optional<Bonsai> findById(UUID id) {
@@ -50,24 +56,27 @@ public class BonsaiRepository {
         bonsaiDao.deleteById(id);
     }
 
-    public Optional<Watering> getLatestWatering(UUID id) {
-        if (wateringDao.getWaterings(id).isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(BonsaiMapper.toWatering(wateringDao.getWaterings(id).get(0)));
+    public List<Watering> getWaterings(UUID id) {
+        return wateringDao.findAll().stream()
+                .filter(w -> w.getBonsai().getId().equals(id))
+                .map(BonsaiMapper::toWatering)
+                .sorted(Comparator.comparing(Watering::getWatering_date).reversed())
+                .collect(Collectors.toList());
     }
 
-    public Optional<Repotting> getLatestRepotting(UUID id) {
-        if (repottingDao.getRepottings(id).isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(BonsaiMapper.toRepotting(repottingDao.getRepottings(id).get(0)));
+    public List<Repotting> getRepottings(UUID id) {
+        return repottingDao.findAll().stream()
+                .filter(r -> r.getBonsai().getId().equals(id))
+                .map(BonsaiMapper::toRepotting)
+                .sorted(Comparator.comparing(Repotting::getRepotting_date).reversed())
+                .collect(Collectors.toList());
     }
 
-    public Optional<Pruning> getLatestPruning(UUID id) {
-        if (pruningDao.getPrunings(id).isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(BonsaiMapper.toPruning(pruningDao.getPrunings(id).get(0)));
+    public List<Pruning> getPrunings(UUID id) {
+        return pruningDao.findAll().stream()
+                .filter(p -> p.getBonsai().getId().equals(id))
+                .map(BonsaiMapper::toPruning)
+                .sorted(Comparator.comparing(Pruning::getPruning_date).reversed())
+                .collect(Collectors.toList());
     }
 }

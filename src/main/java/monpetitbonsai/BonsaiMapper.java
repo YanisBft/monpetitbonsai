@@ -5,6 +5,9 @@ import monpetitbonsai.bonsai.domain.Pruning;
 import monpetitbonsai.bonsai.domain.Repotting;
 import monpetitbonsai.bonsai.domain.Watering;
 import monpetitbonsai.bonsai.exposition.BonsaiDto;
+import monpetitbonsai.bonsai.exposition.PruningDto;
+import monpetitbonsai.bonsai.exposition.RepottingDto;
+import monpetitbonsai.bonsai.exposition.WateringDto;
 import monpetitbonsai.bonsai.infrastructure.BonsaiEntity;
 import monpetitbonsai.bonsai.infrastructure.PruningEntity;
 import monpetitbonsai.bonsai.infrastructure.RepottingEntity;
@@ -60,24 +63,44 @@ public class BonsaiMapper {
         Watering watering = new Watering();
         watering.setId(wateringEntity.getId());
         watering.setWatering_date(wateringEntity.getWatering_date());
-        watering.setBonsai_id(wateringEntity.getBonsai_id());
+        watering.setBonsai(BonsaiMapper.toBonsai(wateringEntity.getBonsai()));
         return watering;
+    }
+
+    public static WateringDto toWateringDto(Watering watering) {
+        WateringDto wateringDto = new WateringDto();
+        wateringDto.setId(watering.getId());
+        wateringDto.setWatering_date(watering.getWatering_date());
+        return wateringDto;
     }
 
     public static Repotting toRepotting(RepottingEntity repottingEntity) {
         Repotting repotting = new Repotting();
         repotting.setId(repottingEntity.getId());
         repotting.setRepotting_date(repottingEntity.getRepotting_date());
-        repotting.setBonsai_id(repottingEntity.getBonsai_id());
+        repotting.setBonsai(BonsaiMapper.toBonsai(repottingEntity.getBonsai()));
         return repotting;
     }
 
+    public static RepottingDto toRepottingDto(Repotting repotting) {
+        RepottingDto repottingDto = new RepottingDto();
+        repottingDto.setId(repotting.getId());
+        repottingDto.setRepotting_date(repotting.getRepotting_date());
+        return repottingDto;
+    }
 
     public static Pruning toPruning(PruningEntity pruningEntity) {
         Pruning pruning = new Pruning();
         pruning.setId(pruningEntity.getId());
         pruning.setPruning_date(pruningEntity.getPruning_date());
-        pruning.setBonsai_id(pruningEntity.getBonsai_id());
+        pruning.setBonsai(BonsaiMapper.toBonsai(pruningEntity.getBonsai()));
         return pruning;
+    }
+
+    public static PruningDto toPruningDto(Pruning pruning) {
+        PruningDto pruningDto = new PruningDto();
+        pruningDto.setId(pruning.getId());
+        pruningDto.setPruning_date(pruning.getPruning_date());
+        return pruningDto;
     }
 }

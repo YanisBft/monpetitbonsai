@@ -1,14 +1,13 @@
-package monpetitbonsai.bonsai.domain;
+package monpetitbonsai.bonsai.exposition;
 
 import java.util.Date;
 import java.util.UUID;
 
-public class Pruning {
+public class PruningDto {
     private UUID id;
     private Date pruning_date;
-    private Bonsai bonsai;
 
-    public Pruning() {
+    public PruningDto() {
     }
 
     public UUID getId() {
@@ -25,13 +24,5 @@ public class Pruning {
 
     public void setPruning_date(Date pruning_date) {
         this.pruning_date = pruning_date;
-    }
-
-    public Bonsai getBonsai() {
-        return bonsai;
-    }
-
-    public void setBonsai(Bonsai bonsai) {
-        this.bonsai = bonsai;
     }
 }

@@ -1,6 +1,9 @@
 package monpetitbonsai.bonsai.domain;
 
+import monpetitbonsai.commons.Status;
+
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class Bonsai {
@@ -9,9 +12,12 @@ public class Bonsai {
     private String species;
     private Date acquisition_date;
     private int acquisition_age;
-    private String status;
+    private List<Watering> waterings;
+    private List<Repotting> repottings;
+    private List<Pruning> prunings;
+    private Status status;
 
-    public Bonsai() {};
+    public Bonsai() {}
 
     public UUID getId() {
         return id;
@@ -53,11 +59,35 @@ public class Bonsai {
         this.acquisition_age = acquisition_age;
     }
 
-    public String getStatus() {
+    public List<Watering> getWaterings() {
+        return waterings;
+    }
+
+    public void setWaterings(List<Watering> waterings) {
+        this.waterings = waterings;
+    }
+
+    public List<Repotting> getRepottings() {
+        return repottings;
+    }
+
+    public void setRepottings(List<Repotting> repottings) {
+        this.repottings = repottings;
+    }
+
+    public List<Pruning> getPrunings() {
+        return prunings;
+    }
+
+    public void setPrunings(List<Pruning> prunings) {
+        this.prunings = prunings;
+    }
+
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 }

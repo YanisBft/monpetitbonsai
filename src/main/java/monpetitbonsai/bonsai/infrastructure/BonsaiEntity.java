@@ -1,9 +1,11 @@
 package monpetitbonsai.bonsai.infrastructure;
 
+import monpetitbonsai.commons.Status;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "bonsai")
@@ -21,8 +23,14 @@ public class BonsaiEntity {
     private Date acquisition_date;
     @Column(name = "acquisition_age")
     private int acquisition_age;
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING) @Column(name = "status")
+    private Status status;
+    @OneToMany(targetEntity = WateringEntity.class, mappedBy = "bonsai")
+    private List<WateringEntity> waterings;
+    @OneToMany(targetEntity = RepottingEntity.class, mappedBy = "bonsai")
+    private List<RepottingEntity> repottings;
+    @OneToMany(targetEntity = PruningEntity.class, mappedBy = "bonsai")
+    private List<PruningEntity> prunings;
 
     public BonsaiEntity() {
     }
@@ -67,11 +75,35 @@ public class BonsaiEntity {
         this.acquisition_age = acquisition_age;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public List<WateringEntity> getWaterings() {
+        return waterings;
+    }
+
+    public void setWaterings(List<WateringEntity> waterings) {
+        this.waterings = waterings;
+    }
+
+    public List<RepottingEntity> getRepottings() {
+        return repottings;
+    }
+
+    public void setRepottings(List<RepottingEntity> repottings) {
+        this.repottings = repottings;
+    }
+
+    public List<PruningEntity> getPrunings() {
+        return prunings;
+    }
+
+    public void setPrunings(List<PruningEntity> prunings) {
+        this.prunings = prunings;
     }
 }
