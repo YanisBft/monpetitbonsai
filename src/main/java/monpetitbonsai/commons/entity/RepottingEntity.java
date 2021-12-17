@@ -1,5 +1,6 @@
-package monpetitbonsai.bonsai.infrastructure;
+package monpetitbonsai.commons.entity;
 
+import monpetitbonsai.commons.entity.BonsaiEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

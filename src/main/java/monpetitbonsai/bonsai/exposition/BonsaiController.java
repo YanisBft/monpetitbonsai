@@ -1,6 +1,6 @@
 package monpetitbonsai.bonsai.exposition;
 
-import monpetitbonsai.BonsaiMapper;
+import monpetitbonsai.bonsai.BonsaiMapper;
 import monpetitbonsai.bonsai.domain.*;
 import monpetitbonsai.commons.SortType;
 import monpetitbonsai.commons.Status;
@@ -55,8 +55,8 @@ public class BonsaiController {
     }
 
     @PostMapping
-    public ResponseEntity<BonsaiDto> create(@RequestBody BonsaiDto bonsai) {
-        return new ResponseEntity<>(BonsaiMapper.toBonsaiDto(bonsaiService.create(BonsaiMapper.toBonsai(bonsai))), HttpStatus.CREATED);
+    public ResponseEntity<BonsaiDto> create(@RequestBody BonsaiDto bonsaiDto) {
+        return new ResponseEntity<>(BonsaiMapper.toBonsaiDto(bonsaiService.create(BonsaiMapper.toBonsai(bonsaiDto))), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")

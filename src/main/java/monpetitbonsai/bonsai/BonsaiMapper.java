@@ -1,4 +1,4 @@
-package monpetitbonsai;
+package monpetitbonsai.bonsai;
 
 import monpetitbonsai.bonsai.domain.Bonsai;
 import monpetitbonsai.bonsai.domain.Pruning;
@@ -8,10 +8,10 @@ import monpetitbonsai.bonsai.exposition.BonsaiDto;
 import monpetitbonsai.bonsai.exposition.PruningDto;
 import monpetitbonsai.bonsai.exposition.RepottingDto;
 import monpetitbonsai.bonsai.exposition.WateringDto;
-import monpetitbonsai.bonsai.infrastructure.BonsaiEntity;
-import monpetitbonsai.bonsai.infrastructure.PruningEntity;
-import monpetitbonsai.bonsai.infrastructure.RepottingEntity;
-import monpetitbonsai.bonsai.infrastructure.WateringEntity;
+import monpetitbonsai.commons.entity.BonsaiEntity;
+import monpetitbonsai.commons.entity.PruningEntity;
+import monpetitbonsai.commons.entity.RepottingEntity;
+import monpetitbonsai.commons.entity.WateringEntity;
 
 public class BonsaiMapper {
 

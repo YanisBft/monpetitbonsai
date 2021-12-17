@@ -1,4 +1,4 @@
-package monpetitbonsai.bonsai.infrastructure;
+package monpetitbonsai.commons.entity;
 
 import monpetitbonsai.commons.Status;
 import org.hibernate.annotations.GenericGenerator;
@@ -31,6 +31,8 @@ public class BonsaiEntity {
     private List<RepottingEntity> repottings;
     @OneToMany(targetEntity = PruningEntity.class, mappedBy = "bonsai")
     private List<PruningEntity> prunings;
+    @ManyToOne(targetEntity = OwnerEntity.class) @JoinColumn(name = "owner_id")
+    private OwnerEntity owner;
 
     public BonsaiEntity() {
     }
@@ -105,5 +107,13 @@ public class BonsaiEntity {
 
     public void setPrunings(List<PruningEntity> prunings) {
         this.prunings = prunings;
+    }
+
+    public OwnerEntity getOwner() {
+        return owner;
+    }
+
+    public void setOwner(OwnerEntity owner) {
+        this.owner = owner;
     }
 }

@@ -1,5 +1,6 @@
-package monpetitbonsai.bonsai.infrastructure;
+package monpetitbonsai.commons.dao;
 
+import monpetitbonsai.commons.entity.WateringEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

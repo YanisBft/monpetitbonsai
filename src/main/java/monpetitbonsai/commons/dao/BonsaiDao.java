@@ -1,6 +1,7 @@
-package monpetitbonsai.bonsai.infrastructure;
+package monpetitbonsai.commons.dao;
 
 import monpetitbonsai.commons.Status;
+import monpetitbonsai.commons.entity.BonsaiEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

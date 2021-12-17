@@ -1,11 +1,15 @@
 package monpetitbonsai.bonsai.infrastructure;
 
-import monpetitbonsai.BonsaiMapper;
+import monpetitbonsai.bonsai.BonsaiMapper;
 import monpetitbonsai.bonsai.domain.Bonsai;
 import monpetitbonsai.bonsai.domain.Pruning;
 import monpetitbonsai.bonsai.domain.Repotting;
 import monpetitbonsai.bonsai.domain.Watering;
 import monpetitbonsai.commons.Status;
+import monpetitbonsai.commons.dao.BonsaiDao;
+import monpetitbonsai.commons.dao.PruningDao;
+import monpetitbonsai.commons.dao.RepottingDao;
+import monpetitbonsai.commons.dao.WateringDao;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
