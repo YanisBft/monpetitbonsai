@@ -22,8 +22,10 @@ public class OwnerController {
     }
 
     @GetMapping
-    public List<OwnerDto> findAll() {
-        return ownerService.findAll().stream().map(OwnerMapper::toOwnerDto).collect(Collectors.toList());
+    public List<OwnerDto> findAll(
+            @RequestParam(required = false, defaultValue = "-1") int has_more
+    ) {
+        return ownerService.findAll(has_more).stream().map(OwnerMapper::toOwnerDto).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

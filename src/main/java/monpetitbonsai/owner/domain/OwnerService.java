@@ -15,8 +15,8 @@ public class OwnerService {
         this.ownerRepository = ownerRepository;
     }
 
-    public List<Owner> findAll() {
-        return ownerRepository.findAll();
+    public List<Owner> findAll(int has_more) {
+        return ownerRepository.findAll(has_more);
     }
 
     public Optional<Owner> findById(UUID id) {
@@ -47,7 +47,7 @@ public class OwnerService {
     public Optional<Bonsai> addBonsai(UUID owner_id, Bonsai bonsai) {
         Optional<Owner> owner = ownerRepository.findById(owner_id);
         if (owner.isPresent()) {
-            for (Owner o : findAll()) {
+            for (Owner o : findAll(-1)) {
                 for (Bonsai b : o.getBonsais()) {
                     if (b.getId().equals(bonsai.getId())) {
                         return Optional.empty();

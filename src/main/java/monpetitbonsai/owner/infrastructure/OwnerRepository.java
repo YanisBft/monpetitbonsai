@@ -22,8 +22,8 @@ public class OwnerRepository {
         this.bonsaiDao = bonsaiDao;
     }
 
-    public List<Owner> findAll() {
-        return ownerDao.findAll().stream().map(OwnerMapper::toOwner).collect(Collectors.toList());
+    public List<Owner> findAll(int has_more) {
+        return ownerDao.findAllFiltered(has_more).stream().map(OwnerMapper::toOwner).collect(Collectors.toList());
     }
 
     public Optional<Owner> findById(UUID id) {

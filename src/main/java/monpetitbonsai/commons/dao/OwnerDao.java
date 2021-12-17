@@ -8,10 +8,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface OwnerDao extends JpaRepository<OwnerEntity, UUID> {
+
+    @Query("SELECT o FROM owner o, bonsai b WHERE (:has_more = -1 OR o.id = b.owner) GROUP BY o HAVING COUNT(b) > :has_more")
+    List<OwnerEntity> findAllFiltered(@Param("has_more") int has_more);
 
     @Transactional
     @Modifying
