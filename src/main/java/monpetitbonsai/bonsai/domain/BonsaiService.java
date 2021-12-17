@@ -32,10 +32,10 @@ public class BonsaiService {
     public Optional<Bonsai> update(UUID id, Bonsai updatedBonsai) {
         Optional<Bonsai> bonsai = bonsaiRepository.findById(id);
         if (bonsai.isPresent()) {
-            bonsai.get().setName(updatedBonsai.getName());
-            bonsai.get().setSpecies(updatedBonsai.getSpecies());
-            bonsai.get().setAcquisition_date(updatedBonsai.getAcquisition_date());
-            bonsai.get().setAcquisition_age(updatedBonsai.getAcquisition_age());
+            if (updatedBonsai.getName() != null) bonsai.get().setName(updatedBonsai.getName());
+            if (updatedBonsai.getSpecies() != null) bonsai.get().setSpecies(updatedBonsai.getSpecies());
+            if (updatedBonsai.getAcquisition_date() != null) bonsai.get().setAcquisition_date(updatedBonsai.getAcquisition_date());
+            if (updatedBonsai.getAcquisition_age() != 0) bonsai.get().setAcquisition_age(updatedBonsai.getAcquisition_age());
             return Optional.of(bonsaiRepository.update(bonsai.get()));
         }
         return bonsai;
