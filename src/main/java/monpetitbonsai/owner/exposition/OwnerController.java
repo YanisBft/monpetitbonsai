@@ -49,7 +49,7 @@ public class OwnerController {
     }
 
     @PostMapping("/{owner_id}/bonsais")
-    public ResponseEntity<BonsaiDto> addBonsai(@PathVariable UUID owner_id, @RequestBody Bonsai bonsai) {
-        return ownerService.addBonsai(owner_id, bonsai).map(b -> ResponseEntity.ok(OwnerMapper.toBonsaiDto(b))).orElse(ResponseEntity.notFound().build());
+    public List<BonsaiDto> addBonsai(@PathVariable UUID owner_id, @RequestBody List<Bonsai> bonsais) {
+        return ownerService.addBonsai(owner_id, bonsais).stream().map(OwnerMapper::toBonsaiDto).collect(Collectors.toList());
     }
 }

@@ -3,6 +3,7 @@ package monpetitbonsai.owner.domain;
 import monpetitbonsai.owner.infrastructure.OwnerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,18 +45,24 @@ public class OwnerService {
         return Optional.empty();
     }
 
-    public Optional<Bonsai> addBonsai(UUID owner_id, Bonsai bonsai) {
+    public List<Bonsai> addBonsai(UUID owner_id, List<Bonsai> bonsais) {
+        List<Bonsai> list = new ArrayList<>();
         Optional<Owner> owner = ownerRepository.findById(owner_id);
         if (owner.isPresent()) {
-            for (Owner o : findAll(-1)) {
-                for (Bonsai b : o.getBonsais()) {
-                    if (b.getId().equals(bonsai.getId())) {
-                        return Optional.empty();
+            for (Bonsai bonsai : bonsais) {
+                boolean hasOwnerAlready = false;
+                for (Owner o : findAll(-1)) {
+                    for (Bonsai b : o.getBonsais()) {
+                        if (b.getId().equals(bonsai.getId())) {
+                            hasOwnerAlready = true;
+                        }
                     }
                 }
+                if (!hasOwnerAlready) {
+                    list.add(ownerRepository.addBonsai(owner.get(), bonsai));
+                }
             }
-            return Optional.of(ownerRepository.addBonsai(owner.get(), bonsai));
         }
-        return Optional.empty();
+        return list;
     }
 }
