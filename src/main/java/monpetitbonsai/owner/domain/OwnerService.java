@@ -28,6 +28,19 @@ public class OwnerService {
         return ownerRepository.create(owner);
     }
 
+    public Optional<Owner> update(UUID id, Owner updatedOwner) {
+        Optional<Owner> owner = ownerRepository.findById(id);
+        if (owner.isPresent()) {
+            if (updatedOwner.getName() != null) owner.get().setName(updatedOwner.getName());
+            return Optional.of(ownerRepository.update(owner.get()));
+        }
+        return owner;
+    }
+
+    public void delete(UUID id) {
+        ownerRepository.delete(id);
+    }
+
     public List<Bonsai> getBonsais(UUID id) {
         return ownerRepository.getBonsais(id);
     }

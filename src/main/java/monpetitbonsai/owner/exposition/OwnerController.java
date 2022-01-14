@@ -38,6 +38,18 @@ public class OwnerController {
         return new ResponseEntity<>(OwnerMapper.toOwnerDto(ownerService.create(OwnerMapper.toOwner(ownerDto))), HttpStatus.CREATED);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<OwnerDto> update(@PathVariable UUID id, @RequestBody OwnerDto updatedOwner) {
+        return ownerService.update(id, OwnerMapper.toOwner(updatedOwner))
+                .map(o -> ResponseEntity.ok(OwnerMapper.toOwnerDto(o)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable UUID id) {
+        ownerService.delete(id);
+    }
+
     @GetMapping("/{id}/bonsais")
     public List<BonsaiDto> getBonsais(@PathVariable UUID id) {
         return ownerService.getBonsais(id).stream().map(OwnerMapper::toBonsaiDto).collect(Collectors.toList());
