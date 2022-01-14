@@ -13,6 +13,7 @@ public class AuthorityId implements Serializable {
 
     @Column(name = "id")
     private UUID uuid;
+
     @Column(name = "authority")
     private String authority;
 

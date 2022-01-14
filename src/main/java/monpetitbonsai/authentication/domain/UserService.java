@@ -1,7 +1,7 @@
 package monpetitbonsai.authentication.domain;
 
-import monpetitbonsai.authentication.infrastructure.AuthorityEntity;
-import monpetitbonsai.authentication.infrastructure.UserEntity;
+import monpetitbonsai.authentication.infrastructure.*;
+import monpetitbonsai.commons.AuthorityType;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,8 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -25,17 +24,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void create(UserCreationRequest userCreationRequest) {
+    public UserEntity create(UserCreationRequest userCreationRequest) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(userCreationRequest.username());
-        userEntity.setPassword(passwordEncoder.encode(userCreationRequest.password()));
+        userEntity.setUsername(userCreationRequest.getUsername());
+        userEntity.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
         UserEntity savedUser = userDao.save(userEntity);
 
         List<AuthorityEntity> authorities = new ArrayList<>();
         authorities.add(new AuthorityEntity(AuthorityId.getDefaultAuthority(savedUser.getId())));
         savedUser.setAuthorities(authorities);
 
-        userDao.save(savedUser);
+        return userDao.save(savedUser);
     }
 
     @Override
@@ -47,4 +46,30 @@ public class UserService implements UserDetailsService {
                 AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
     }
 
+    public List<UserEntity> getAll() {
+        return userDao.findAll();
+    }
+
+    public Optional<UserEntity> getById(UUID id) {
+        return userDao.findById(id);
+    }
+
+    public Optional<UserEntity> updatePassword(UUID id, String newPassword) {
+        Optional<UserEntity> user = userDao.findById(id);
+        if (user.isPresent()) {
+            user.get().setPassword(passwordEncoder.encode(newPassword));
+            return Optional.of(userDao.save(user.get()));
+        }
+        return user;
+    }
+
+    public Optional<UserEntity> updateAuthority(UUID id, AuthorityType newAuthority) {
+        Optional<UserEntity> user = userDao.findById(id);
+        if (user.isPresent()) {
+            user.get().getAuthorities().clear();
+            user.get().getAuthorities().add(new AuthorityEntity(new AuthorityId(id, newAuthority.name())));
+            return Optional.of(userDao.save(user.get()));
+        }
+        return user;
+    }
 }

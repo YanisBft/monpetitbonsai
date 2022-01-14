@@ -1,6 +1,7 @@
 package monpetitbonsai.authentication.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import monpetitbonsai.authentication.domain.UserCredentials;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
