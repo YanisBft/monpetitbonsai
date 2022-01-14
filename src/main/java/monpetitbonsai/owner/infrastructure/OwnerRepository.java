@@ -34,6 +34,14 @@ public class OwnerRepository {
         return OwnerMapper.toOwner(ownerDao.save(OwnerMapper.toOwnerEntity(owner)));
     }
 
+    public Owner update(Owner owner) {
+        return OwnerMapper.toOwner(ownerDao.save(OwnerMapper.toOwnerEntity(owner)));
+    }
+
+    public void delete(UUID id) {
+        ownerDao.deleteById(id);
+    }
+
     public List<Bonsai> getBonsais(UUID id) {
         return bonsaiDao.findAll().stream()
                 .filter(b -> b.getOwner() != null && b.getOwner().getId().equals(id))
