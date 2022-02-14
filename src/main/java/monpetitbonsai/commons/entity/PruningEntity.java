@@ -15,7 +15,7 @@ public class PruningEntity {
     private UUID id;
     @Column(name = "pruning_date")
     private Date pruning_date;
-    @ManyToOne(targetEntity = BonsaiEntity.class) @JoinColumn(name = "bonsai_id")
+    @ManyToOne(targetEntity = BonsaiEntity.class, cascade = CascadeType.ALL) @JoinColumn(name = "bonsai_id")
     private BonsaiEntity bonsai;
 
     public PruningEntity() {

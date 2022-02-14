@@ -31,7 +31,7 @@ public class BonsaiEntity {
     private List<RepottingEntity> repottings;
     @OneToMany(targetEntity = PruningEntity.class, mappedBy = "bonsai")
     private List<PruningEntity> prunings;
-    @ManyToOne(targetEntity = OwnerEntity.class) @JoinColumn(name = "owner_id")
+    @ManyToOne(targetEntity = OwnerEntity.class, cascade = CascadeType.ALL) @JoinColumn(name = "owner_id")
     private OwnerEntity owner;
 
     public BonsaiEntity() {

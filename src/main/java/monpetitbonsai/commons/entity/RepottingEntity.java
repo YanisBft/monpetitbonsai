@@ -16,7 +16,7 @@ public class RepottingEntity {
     private UUID id;
     @Column(name = "repotting_date")
     private Date repotting_date;
-    @ManyToOne(targetEntity = BonsaiEntity.class) @JoinColumn(name = "bonsai_id")
+    @ManyToOne(targetEntity = BonsaiEntity.class, cascade = CascadeType.ALL) @JoinColumn(name = "bonsai_id")
     private BonsaiEntity bonsai;
 
     public RepottingEntity() {

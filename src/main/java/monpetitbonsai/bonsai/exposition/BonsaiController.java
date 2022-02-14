@@ -64,18 +64,18 @@ public class BonsaiController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<BonsaiDto> update(@PathVariable UUID bonsai_id, @RequestBody BonsaiDto updatedBonsai) {
-        AppUser credentials = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        boolean isStaff = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("STAFF"));
-
-        if (isStaff) {
-            return bonsaiService.update(bonsai_id, BonsaiMapper.toBonsai(updatedBonsai))
-                    .map(b -> ResponseEntity.ok(BonsaiMapper.toBonsaiDto(b)))
-                    .orElse(ResponseEntity.notFound().build());
-        }
-
+    public ResponseEntity<BonsaiDto> update(@PathVariable("id") UUID bonsai_id, @RequestBody BonsaiDto updatedBonsai) {
         Optional<Bonsai> optionalBonsai = bonsaiService.findById(bonsai_id);
         if (optionalBonsai.isPresent()) {
+            AppUser credentials = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            boolean isStaff = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("STAFF"));
+
+            if (isStaff) {
+                return bonsaiService.update(bonsai_id, BonsaiMapper.toBonsai(updatedBonsai))
+                        .map(b -> ResponseEntity.ok(BonsaiMapper.toBonsaiDto(b)))
+                        .orElse(ResponseEntity.notFound().build());
+            }
+
             Owner owner = optionalBonsai.get().getOwner();
             boolean isOwner = credentials.getId().equals(owner.getId());
 
@@ -84,50 +84,55 @@ public class BonsaiController {
                         .map(b -> ResponseEntity.ok(BonsaiMapper.toBonsaiDto(b)))
                         .orElse(ResponseEntity.notFound().build());
             }
+
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<BonsaiDto> updateStatus(@PathVariable UUID bonsai_id, @RequestBody String status) {
+    public ResponseEntity<BonsaiDto> updateStatus(@PathVariable("id") UUID bonsai_id, @RequestBody String status) {
         try {
             Status st = Status.valueOf(status);
-            AppUser credentials = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            boolean isStaff = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("STAFF"));
-
-            if (isStaff) {
-                return bonsaiService.updateStatus(bonsai_id, st).map(b -> ResponseEntity.ok(BonsaiMapper.toBonsaiDto(b))).orElse(ResponseEntity.notFound().build());
-            }
 
             Optional<Bonsai> optionalBonsai = bonsaiService.findById(bonsai_id);
             if (optionalBonsai.isPresent()) {
+                AppUser credentials = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                boolean isStaff = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("STAFF"));
+
+                if (isStaff) {
+                    return bonsaiService.updateStatus(bonsai_id, st).map(b -> ResponseEntity.ok(BonsaiMapper.toBonsaiDto(b))).orElse(ResponseEntity.notFound().build());
+                }
+
                 Owner owner = optionalBonsai.get().getOwner();
                 boolean isOwner = credentials.getId().equals(owner.getId());
 
                 if (isOwner) {
                     return bonsaiService.updateStatus(bonsai_id, st).map(b -> ResponseEntity.ok(BonsaiMapper.toBonsaiDto(b))).orElse(ResponseEntity.notFound().build());
                 }
+
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.notFound().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID bonsai_id) {
-        AppUser credentials = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        boolean isAdmin = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
-
-        if (isAdmin) {
-            bonsaiService.delete(bonsai_id);
-            return ResponseEntity.ok().build();
-        }
-
+    public ResponseEntity<Void> delete(@PathVariable("id") UUID bonsai_id) {
         Optional<Bonsai> optionalBonsai = bonsaiService.findById(bonsai_id);
         if (optionalBonsai.isPresent()) {
+            AppUser credentials = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            boolean isAdmin = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
+
+            if (isAdmin) {
+                bonsaiService.delete(bonsai_id);
+                return ResponseEntity.ok().build();
+            }
+
             Owner owner = optionalBonsai.get().getOwner();
             boolean isOwner = credentials.getId().equals(owner.getId());
 
@@ -135,9 +140,11 @@ public class BonsaiController {
                 bonsaiService.delete(bonsai_id);
                 return ResponseEntity.ok().build();
             }
+
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{id}/watering")

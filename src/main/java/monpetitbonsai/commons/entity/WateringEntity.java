@@ -15,7 +15,7 @@ public class WateringEntity {
     private UUID id;
     @Column(name = "watering_date")
     private Date watering_date;
-    @ManyToOne(targetEntity = BonsaiEntity.class) @JoinColumn(name = "bonsai_id")
+    @ManyToOne(targetEntity = BonsaiEntity.class, cascade = CascadeType.ALL) @JoinColumn(name = "bonsai_id")
     private BonsaiEntity bonsai;
 
     public WateringEntity() {
