@@ -68,7 +68,7 @@ public class BonsaiController {
         Optional<Bonsai> optionalBonsai = bonsaiService.findById(bonsai_id);
         if (optionalBonsai.isPresent()) {
             AppUser credentials = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            boolean isStaff = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("STAFF"));
+            boolean isStaff = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("STAFF") || authority.getAuthority().equals("ADMIN"));
 
             if (isStaff) {
                 return bonsaiService.update(bonsai_id, BonsaiMapper.toBonsai(updatedBonsai))
@@ -99,7 +99,7 @@ public class BonsaiController {
             Optional<Bonsai> optionalBonsai = bonsaiService.findById(bonsai_id);
             if (optionalBonsai.isPresent()) {
                 AppUser credentials = (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                boolean isStaff = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("STAFF"));
+                boolean isStaff = credentials.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("STAFF") || authority.getAuthority().equals("ADMIN"));
 
                 if (isStaff) {
                     return bonsaiService.updateStatus(bonsai_id, st).map(b -> ResponseEntity.ok(BonsaiMapper.toBonsaiDto(b))).orElse(ResponseEntity.notFound().build());

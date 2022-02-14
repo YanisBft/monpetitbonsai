@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -53,8 +54,14 @@ public class OwnerController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
-        ownerService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        Optional<Owner> optionalOwner = ownerService.findById(id);
+        if (optionalOwner.isPresent()) {
+            ownerService.delete(id);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{id}/bonsais")
