@@ -6,6 +6,7 @@ import monpetitbonsai.authentication.domain.UserService;
 import monpetitbonsai.commons.AuthorityType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}/authority")
     public ResponseEntity<UserDto> updateAuthority(@PathVariable UUID id, @RequestBody String newAuthority) {
         try {
@@ -55,6 +57,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAuthority('STAFF')")
     @GetMapping
     public List<UserDto> getAll() {
         return userService.getAll().stream()

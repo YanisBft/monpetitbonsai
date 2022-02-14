@@ -7,6 +7,7 @@ import monpetitbonsai.commons.Status;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,6 +60,7 @@ public class BonsaiController {
         return new ResponseEntity<>(BonsaiMapper.toBonsaiDto(bonsaiService.create(BonsaiMapper.toBonsai(bonsaiDto))), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('STAFF')")
     @PatchMapping("/{id}")
     public ResponseEntity<BonsaiDto> update(@PathVariable UUID id, @RequestBody BonsaiDto updatedBonsai) {
         return bonsaiService.update(id, BonsaiMapper.toBonsai(updatedBonsai))
@@ -66,6 +68,7 @@ public class BonsaiController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasAuthority('STAFF')")
     @PutMapping("/{id}/status")
     public ResponseEntity<BonsaiDto> updateStatus(@PathVariable UUID id, @RequestBody String status) {
         try {
@@ -76,6 +79,7 @@ public class BonsaiController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
         bonsaiService.delete(id);
