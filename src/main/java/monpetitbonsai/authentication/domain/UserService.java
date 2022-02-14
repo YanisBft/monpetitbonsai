@@ -27,7 +27,9 @@ public class UserService implements UserDetailsService {
     public UserEntity create(UserCreationRequest userCreationRequest) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userCreationRequest.getUsername());
-        userEntity.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
+        if (userCreationRequest.getPassword() != null) {
+            userEntity.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
+        }
         UserEntity savedUser = userDao.save(userEntity);
 
         List<AuthorityEntity> authorities = new ArrayList<>();

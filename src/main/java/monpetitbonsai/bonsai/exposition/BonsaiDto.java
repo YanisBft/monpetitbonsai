@@ -15,6 +15,7 @@ public class BonsaiDto {
     private Date last_repotting;
     private Date last_pruning;
     private Status status;
+    private UUID owner_id;
 
     public BonsaiDto() {
     }
@@ -89,5 +90,13 @@ public class BonsaiDto {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public UUID getOwner_id() {
+        return owner_id;
+    }
+
+    public void setOwner_id(UUID owner_id) {
+        this.owner_id = owner_id;
     }
 }

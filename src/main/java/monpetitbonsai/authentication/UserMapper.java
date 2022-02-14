@@ -14,6 +14,7 @@ public class UserMapper {
     public static UserCreationRequest toUserCreationRequest(UserDto userDto) {
         UserCreationRequest userCreationRequest = new UserCreationRequest();
         userCreationRequest.setUsername(userDto.getUsername());
+        userCreationRequest.setPassword(userDto.getPassword());
         return userCreationRequest;
     }
 

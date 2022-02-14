@@ -7,6 +7,7 @@ import java.util.UUID;
 public class UserDto {
     private UUID id;
     private String username;
+    private String password;
     private boolean enabled;
     private List<AuthorityDto> authorities;
 
@@ -28,6 +29,10 @@ public class UserDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public boolean isEnabled() {

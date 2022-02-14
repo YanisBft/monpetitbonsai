@@ -16,6 +16,7 @@ public class Bonsai {
     private List<Repotting> repottings;
     private List<Pruning> prunings;
     private Status status;
+    private Owner owner;
 
     public Bonsai() {}
 
@@ -89,5 +90,13 @@ public class Bonsai {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }

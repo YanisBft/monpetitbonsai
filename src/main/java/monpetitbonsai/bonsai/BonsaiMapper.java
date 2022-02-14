@@ -23,6 +23,7 @@ public class BonsaiMapper {
         bonsai.setAcquisition_date(bonsaiEntity.getAcquisition_date());
         bonsai.setAcquisition_age(bonsaiEntity.getAcquisition_age());
         bonsai.setStatus(bonsaiEntity.getStatus());
+        bonsai.setOwner(OwnerMapper.toOwner(bonsaiEntity.getOwner()));
         return bonsai;
     }
 
@@ -34,6 +35,7 @@ public class BonsaiMapper {
         bonsai.setAcquisition_date(bonsaiDto.getAcquisition_date());
         bonsai.setAcquisition_age(bonsaiDto.getAcquisition_age());
         bonsai.setStatus(bonsaiDto.getStatus());
+        bonsai.setOwner(OwnerMapper.toOwner(bonsaiDto.getOwner_id()));
         return bonsai;
     }
 
@@ -45,6 +47,7 @@ public class BonsaiMapper {
         bonsaiDto.setAcquisition_date(bonsai.getAcquisition_date());
         bonsaiDto.setAcquisition_age(bonsai.getAcquisition_age());
         bonsaiDto.setStatus(bonsai.getStatus());
+        bonsaiDto.setOwner_id(bonsai.getOwner().getId());
         return bonsaiDto;
     }
 
@@ -56,6 +59,7 @@ public class BonsaiMapper {
         bonsaiEntity.setAcquisition_date(bonsai.getAcquisition_date());
         bonsaiEntity.setAcquisition_age(bonsai.getAcquisition_age());
         bonsaiEntity.setStatus(bonsai.getStatus());
+        bonsaiEntity.setOwner(OwnerMapper.toOwnerEntity(bonsai.getOwner()));
         return bonsaiEntity;
     }
 
